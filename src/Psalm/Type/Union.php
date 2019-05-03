@@ -269,6 +269,47 @@ class Union
         return substr($s, 0, -1) ?: '';
     }
 
+    public function getKey()
+    {
+        if (empty($this->types)) {
+            return '';
+        }
+        $s = '';
+
+        $printed_int = false;
+        $printed_float = false;
+        $printed_string = false;
+
+        foreach ($this->types as $type) {
+            if ($type instanceof TLiteralFloat) {
+                if ($printed_float) {
+                    continue;
+                }
+
+                $s .= 'float|';
+                $printed_float = true;
+            } elseif ($type instanceof TLiteralString) {
+                if ($printed_string) {
+                    continue;
+                }
+
+                $s .= 'string|';
+                $printed_string = true;
+            } elseif ($type instanceof TLiteralInt) {
+                if ($printed_int) {
+                    continue;
+                }
+
+                $s .= 'int|';
+                $printed_int = true;
+            } else {
+                $s .= $type->getKey() . '|';
+            }
+        }
+
+        return substr($s, 0, -1) ?: '';
+    }
+
     /**
      * @return string
      */
