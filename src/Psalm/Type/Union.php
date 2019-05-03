@@ -93,6 +93,11 @@ class Union
     public $possibly_undefined_from_try = false;
 
     /**
+     * Whether or not this union had a template, since replaced
+     */
+    public $had_template = false;
+
+    /**
      * @var array<string, TLiteralString>
      */
     private $literal_string_types = [];
@@ -925,6 +930,8 @@ class Union
                             }
                         }
 
+                        $this->had_template = true;
+
                         if ($input_type) {
                             $generic_param = clone $input_type;
                             $generic_param->setFromDocblock();
@@ -970,6 +977,8 @@ class Union
                     $keys_to_unset[] = $key;
 
                     $this->types[$class_string->getKey()] = $class_string;
+
+                    $this->had_template = true;
 
                     if ($input_type) {
                         $valid_input_atomic_types = [];
