@@ -64,8 +64,11 @@ jobs:
       install:
         - composer $DEFAULT_COMPOSER_FLAGS update
         - composer -v $DEFAULT_COMPOSER_FLAGS global require infection/infection
+      before_script:
+        - vendor/bin/phpunit --dump-xdebug-filter build/xdebug-filter.php
+        - vendor/bin/phpunit --prepend build/xdebug-filter.php --coverage-xml build/logs/coverage-xml --log-junit build/logs/phpunit.junit.xml
       script:
-        - ~/.config/composer/vendor/bin/infection -vv --no-ansi --no-interaction --threads=4 --min-msi=80
+        - ~/.config/composer/vendor/bin/infection --coverage build/logs/  -vv --no-ansi --no-interaction --threads=4 --min-msi=80
     - stage: Code coverage analysis
       php: 7.3
       # don't disable xdebug here
