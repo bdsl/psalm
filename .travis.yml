@@ -26,6 +26,7 @@ env:
 cache:
   directories:
     - ./vendor
+    - ~/.config/composer/vendor
 
 before_install:
     # determine INI file
