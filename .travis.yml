@@ -5,6 +5,7 @@ stages:
   - Code style analysis
   - test
   - Phar build
+  - Mutation testing
   - Code coverage analysis
 
 php:
@@ -56,6 +57,14 @@ matrix:
 # Additional stages
 jobs:
   include:
+    - stage: Mutation testing
+      php: 7.3
+      env: XDEBUG="true"
+      install:
+        - composer $DEFAULT_COMPOSER_FLAGS update
+        - composer -v $DEFAULT_COMPOSER_FLAGS global require infection/infection
+      script:
+        - ~/.config/composer/vendor/bin/infection --threads=4 --min-msi=80
     - stage: Code coverage analysis
       php: 7.3
       # don't disable xdebug here
