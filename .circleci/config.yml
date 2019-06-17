@@ -42,6 +42,7 @@ jobs:
           command: vendor/bin/phpcs
   test:
     executor: php-matrix
+    parallelism: 3
     steps:
       - attach_workspace:
             at: /home/docker/project/
