@@ -1,6 +1,11 @@
 # Use the latest 2.1 version of CircleCI pipeline processing engine, see https://circleci.com/docs/2.0/configuration-reference/
 version: 2.1
 executors:
+  php-matrix:
+    docker:
+      - image: thecodingmachine/php:7.1-v2-cli
+      - image: thecodingmachine/php:7.2-v2-cli
+      - image: thecodingmachine/php:7.3-v2-cli
   php-72:
     docker:
       - image: thecodingmachine/php:7.2-v2-cli
@@ -36,10 +41,11 @@ jobs:
           name: Code Style Analysis with PHPCS
           command: vendor/bin/phpcs
   test:
-    executor: php-72
+    executor: php-matrix
     steps:
       - attach_workspace:
             at: /home/docker/project/
+      - run: composer update
       - run:
           name: PHPUnit test
           command: php vendor/bin/phpunit --log-junit build/phpunit/phpunit.xml
