@@ -29,12 +29,16 @@ jobs:
             - .
   test:
     executor: php-72
+    parallelism: 4
     steps:
       - attach_workspace:
             at: /home/docker/project/
       - run:
           name: PHPUnit test
-          command: php vendor/bin/phpunit --log-junit build/phpunit/phpunit.xml
+          command:
+          >
+              TESTFILES=$(circleci tests glob "tests/**/*Test.php" | circleci tests split)
+              php vendor/bin/phpunit --log-junit build/phpunit/phpunit.xml -- ${TESTFILES}
       - store_test_results:
           path: build/
       - store_artifacts:
