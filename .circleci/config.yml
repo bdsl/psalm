@@ -42,7 +42,7 @@ jobs:
             at: /home/docker/project/
       - run:
           name: PHPUnit test
-          command: php vendor/bin/phpunit --log-junit build/phpunit/phpunit.xml
+          command: php vendor/bin/phpunit --log-junit build/phpunit/phpunit.junit.xml
       - store_test_results:
           path: build/
       - store_artifacts:
@@ -58,7 +58,7 @@ jobs:
           at: /home/docker/project/
       - run:
           name: PHPUnit test with coverage
-          command: php -dextension=pcov.so vendor/bin/phpunit --log-junit build/phpunit/phpunit.xml --coverage-xml build/phpunit/coverage-xml --coverage-html build/phpunit/coverage-html
+          command: php -dextension=pcov.so vendor/bin/phpunit --log-junit build/phpunit/phpunit.junit.xml --coverage-xml build/phpunit/coverage-xml --coverage-html build/phpunit/coverage-html
       - store_artifacts:
           path: build/phpunit
       - persist_to_workspace:
