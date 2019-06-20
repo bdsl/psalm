@@ -72,7 +72,7 @@ jobs:
             at: /home/docker/project/
       - run:
           name: Install infection
-          command: composer global require infection/infection@dev-objects-instead-of-arrays
+          command: composer global require infection/infection dev-objects-instead-of-arrays
       - run:
           name: Mutation coverage testing
           command: php -d memory_limit=6G ~/.composer/vendor/bin/infection --coverage=build/phpunit --only-covered --threads=2 || echo 'Temporarily ignoring unexplained infection failure'
