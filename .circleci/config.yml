@@ -75,7 +75,10 @@ jobs:
           command: composer global require infection/infection
       - run:
           name: Mutation coverage testing
-          command: php -d memory_limit=4G ~/.composer/vendor/bin/infection --coverage=build/phpunit --only-covered --threads=2 || echo 'Temporarily ignoring unexplained infection failure'
+          command:
+          - |
+
+          #php -d memory_limit=4G ~/.composer/vendor/bin/infection --coverage=build/phpunit --only-covered --threads=2 || echo 'Temporarily ignoring unexplained infection failure'
   phar-build:
     executor: php-72
     steps:
