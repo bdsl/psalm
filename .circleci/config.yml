@@ -89,6 +89,10 @@ jobs:
 
             # the test below uses composer and the install script for ocramius/package-versions would die here.
             mv tests/EndToEnd/PsalmEndToEndTest.php tests/EndToEnd/PsalmEndToEndTest.php.skipped
+
+            echo 'Changed Files:'
+            echo ${CHANGED_FILES}
+
             php -d memory_limit=4G ~/.composer/vendor/bin/infection --coverage=build/phpunit --only-covered --threads=2 $INFECTION_FILTER
   phar-build:
     executor: php-72
