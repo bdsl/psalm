@@ -79,19 +79,19 @@ jobs:
             set -e;
             set -x;
             if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
-              CHANGED_FILES=$(git diff --name-only $(git log -1 --before=@{1.month.ago}  --format=%H) --stat | grep "^src");
+              CHANGED_FILES=$(git diff --name-only $(git log -1 --before=@{1.month.ago}  --format=%H) --stat | grep "^src") || { echo 'no source files changed; not running infection'; exit};
               echo 'This is master, so running muation testing for any files changed in last month';
             else
-              CHANGED_FILES=$(git diff --name-only HEAD $(git merge-base HEAD origin/master) | grep "^src/") || echo 'no source files changed';
+              CHANGED_FILES=$(git diff --name-only HEAD $(git merge-base HEAD origin/master) | grep "^src/") || { echo 'no source files changed; not running infection'; exit};
               INFECTION_FILTER="--filter=${CHANGED_FILES} --ignore-msi-with-no-mutations";
               echo "Running mutation testing only for files changed on branch ${CIRCLE_BRANCH}";
             fi
 
-            # the test below uses composer and the install script for ocramius/package-versions would die here.
+            # the test below uses composer and the install script for ocramius/package-versions would cause an error here.
             mv tests/EndToEnd/PsalmEndToEndTest.php tests/EndToEnd/PsalmEndToEndTest.php.skipped
 
-            echo 'Changed Files:'
-            echo ${CHANGED_FILES}
+            echo 'Only running mutations for the following files files:'
+            echo ${CHANGED_FILES} | tr " " "\n"
 
             php -d memory_limit=4G ~/.composer/vendor/bin/infection --coverage=build/phpunit --only-covered --threads=2 $INFECTION_FILTER
   phar-build:
