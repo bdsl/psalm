@@ -60,7 +60,7 @@ jobs:
           name: PHPUnit test with coverage
           command: php -dextension=pcov.so vendor/bin/phpunit --log-junit build/phpunit/phpunit.xml --coverage-xml build/phpunit/coverage-xml --coverage-html build/phpunit/coverage-html
       - store_artifacts:
-          path: build/phpunit
+          path: build/phpunit/coverage-html
       - persist_to_workspace:
           root: /home/docker/project/
           paths:
