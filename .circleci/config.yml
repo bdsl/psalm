@@ -39,7 +39,7 @@ jobs:
     executor: php-72
     steps:
       - attach_workspace:
-          at: /home/docker/project/
+            at: /home/docker/project/
       - run:
           name: PHPUnit test
           command: php vendor/bin/phpunit --log-junit build/phpunit/phpunit.xml
@@ -69,7 +69,7 @@ jobs:
     executor: php-72
     steps:
       - attach_workspace:
-          at: /home/docker/project/
+            at: /home/docker/project/
       - run:
           name: Install infection
           command: composer global require infection/infection
