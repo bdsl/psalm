@@ -82,7 +82,7 @@ jobs:
               CHANGED_FILES=$(git diff --name-only $(git log -1 --before=@{1.month.ago}  --format=%H) --stat | grep "^src");
               echo 'This is master, so running muation testing for any files changed in last month';
             else
-              CHANGED_FILES=$(git diff --name-only HEAD $(git merge-base HEAD master) | grep "^src/") || echo 'no source files changed' && exit;
+              CHANGED_FILES=$(git diff --name-only HEAD $(git merge-base HEAD master) | grep "^src/") || echo 'no source files changed';
               INFECTION_FILTER="--filter=${CHANGED_FILES} --ignore-msi-with-no-mutations";
               echo 'Running mutation testing only for files changed on branch ' . CIRCLE_BRANCH;
             fi
