@@ -93,7 +93,7 @@ jobs:
             echo 'Changed Files:'
             echo ${CHANGED_FILES}
 
-            php -d memory_limit=4G ~/.composer/vendor/bin/infection --coverage=build/phpunit --only-covered --threads=2 $INFECTION_FILTER
+            echo php -d memory_limit=4G ~/.composer/vendor/bin/infection --coverage=build/phpunit --only-covered --threads=2 $INFECTION_FILTER
   phar-build:
     executor: php-72
     steps:
