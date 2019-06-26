@@ -595,6 +595,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
         }
 
         if ($global_context) {
+            // this is important code
             $class_context->strict_types = $global_context->strict_types;
         }
 
