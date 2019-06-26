@@ -686,7 +686,7 @@ class ClassAnalyzer extends ClassLikeAnalyzer
                     $property_type->initialized = false;
                 }
             } else {
-                $property_type = Type::getMixed();
+                $property_type = Type::getMixed(); // comment here
             }
 
             $property_type_location = $property_storage->type_location;
