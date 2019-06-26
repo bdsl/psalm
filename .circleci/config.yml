@@ -76,9 +76,17 @@ jobs:
       - run:
           name: Mutation coverage testing
           command:
-          - |
+            >
+            if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
+              CHANGED_FILES=$(git diff --name-only $(git log -1 --before=@{1.month.ago}  --format=%H) --stat | grep "^src")
+              echo 'This is master, so running muation testing for any files changed in last month'
+            else
+              CHANGED_FILES=$(git diff --name-only HEAD $(git merge-base HEAD master) | grep "^src/");
+              INFECTION_FILTER="--filter=${CHANGED_FILES} --ignore-msi-with-no-mutations";
+              echo 'Running mutation testing only for files changed on branch ' . CIRCLE_BRANCH;
+            fi
 
-          #php -d memory_limit=4G ~/.composer/vendor/bin/infection --coverage=build/phpunit --only-covered --threads=2 || echo 'Temporarily ignoring unexplained infection failure'
+            php -d memory_limit=4G ~/.composer/vendor/bin/infection --coverage=build/phpunit --only-covered --threads=2 $INFECTION_FILTER
   phar-build:
     executor: php-72
     steps:
