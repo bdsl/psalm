@@ -76,6 +76,8 @@ jobs:
       - run:
           name: Mutation coverage testing
           command: |
+            set -e;
+            set -x;
             if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
               CHANGED_FILES=$(git diff --name-only $(git log -1 --before=@{1.month.ago}  --format=%H) --stat | grep "^src");
               echo 'This is master, so running muation testing for any files changed in last month';
