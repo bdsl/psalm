@@ -75,8 +75,7 @@ jobs:
           command: composer global require infection/infection
       - run:
           name: Mutation coverage testing
-          command:
-            >
+          command: |
             if [[ "${CIRCLE_BRANCH}" == "master" ]]; then
               CHANGED_FILES=$(git diff --name-only $(git log -1 --before=@{1.month.ago}  --format=%H) --stat | grep "^src")
               echo 'This is master, so running muation testing for any files changed in last month'
