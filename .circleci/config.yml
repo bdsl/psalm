@@ -120,23 +120,6 @@ workflows:
   Welcome:
     jobs:
       - install-and-self-analyse
-      - test:
-          requires:
-            - install-and-self-analyse
-      - "Code Style Analysis":
-          requires:
-            - install-and-self-analyse
-      - coverage:
-          requires:
-            - test
-            - "Code Style Analysis"
       - mutation:
           requires:
-            - coverage
-      - phar-build:
-          requires:
-            - test
-            - "Code Style Analysis"
-      - test-with-real-projects:
-          requires:
-            - phar-build
+            - install-and-self-analyse
