@@ -20,9 +20,9 @@ jobs:
           key: composer-v2-{{ checksum "/tmp/cachekey" }}
           paths:
             - vendor
-      - run:
-          name: Static analysis
-          command: php -dextension=pcntl.so ./psalm --threads=10
+#      - run:
+#          name: Static analysis
+#          command: php -dextension=pcntl.so ./psalm --threads=10
       - persist_to_workspace:
           root: /home/docker/project/
           paths:
