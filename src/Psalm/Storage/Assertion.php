@@ -8,6 +8,7 @@ class Assertion
      */
     public $rule;
 
+
     /**
      * @var int|string the id of the property/variable, or
      *  the parameter offset of the affected arg
