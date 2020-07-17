@@ -1,7 +1,39 @@
 <?php
 
+namespace Psalm;
+
 use Composer\Autoload\ClassLoader;
-use Psalm\Config;
+use function dirname;
+use function strpos;
+use function realpath;
+use const DIRECTORY_SEPARATOR;
+use function file_exists;
+use function in_array;
+use const PHP_EOL;
+use function fwrite;
+use const STDERR;
+use function implode;
+use function define;
+use function json_decode;
+use function file_get_contents;
+use function is_array;
+use function is_string;
+use function count;
+use function strlen;
+use function substr;
+use function stream_get_meta_data;
+use const STDIN;
+use function stream_set_blocking;
+use function fgets;
+use function preg_split;
+use function trim;
+use function is_dir;
+use function preg_replace;
+use function substr_replace;
+use function file_put_contents;
+use function ini_get;
+use function preg_match;
+use function strtoupper;
 
 /**
  * @param  string $current_dir
@@ -17,7 +49,7 @@ function requireAutoloaders($current_dir, $has_explicit_root, $vendor_dir)
     $psalm_dir = dirname(__DIR__);
 
     /** @psalm-suppress UndefinedConstant */
-    $in_phar = Phar::running() || strpos(__NAMESPACE__, 'HumbugBox');
+    $in_phar = \Phar::running() || strpos(__NAMESPACE__, 'HumbugBox');
 
     if ($in_phar) {
         require_once(__DIR__ . '/../vendor/autoload.php');
@@ -206,7 +238,7 @@ function getPathsToCheck($f_paths)
 
             if (realpath($input_path) === realpath(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'psalm')
                 || realpath($input_path) === realpath(dirname(__DIR__) . DIRECTORY_SEPARATOR . 'psalter')
-                || realpath($input_path) === realpath(Phar::running(false))
+                || realpath($input_path) === realpath(\Phar::running(false))
             ) {
                 continue;
             }
@@ -435,7 +467,7 @@ function initialiseConfig(
         } else {
             $config = Config::getConfigForPath($current_dir, $current_dir, $output_format);
         }
-    } catch (Psalm\Exception\ConfigException $e) {
+    } catch (\Psalm\Exception\ConfigException $e) {
         fwrite(STDERR, $e->getMessage() . PHP_EOL);
         exit(1);
     }

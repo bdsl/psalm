@@ -1,16 +1,62 @@
 <?php
+
+namespace Psalm;
+
 require_once('command_functions.php');
 
-use Psalm\ErrorBaseline;
-use Psalm\Internal\Analyzer\ProjectAnalyzer;
-use Psalm\Internal\Provider;
-use Psalm\Config;
-use Psalm\Internal\IncludeCollector;
-use Psalm\IssueBuffer;
-use Psalm\Progress\DebugProgress;
-use Psalm\Progress\DefaultProgress;
-use Psalm\Progress\LongProgress;
-use Psalm\Progress\VoidProgress;
+use \Psalm\ErrorBaseline;
+use \Psalm\Exception\ConfigCreationException;
+use \Psalm\Internal\Analyzer\ProjectAnalyzer;
+use \Psalm\Internal\Provider;
+use \Psalm\Config;
+use \Psalm\Internal\IncludeCollector;
+use \Psalm\IssueBuffer;
+use \Psalm\Progress\DebugProgress;
+use \Psalm\Progress\DefaultProgress;
+use \Psalm\Progress\LongProgress;
+use \Psalm\Progress\VoidProgress;
+use function error_reporting;
+use function gc_collect_cycles;
+use function gc_disable;
+use function array_slice;
+use function getopt;
+use function implode;
+use function array_map;
+use function substr;
+use function preg_replace;
+use function in_array;
+use function fwrite;
+use const STDERR;
+use const PHP_EOL;
+use function array_key_exists;
+use function ini_set;
+use function is_array;
+use function getcwd;
+use const DIRECTORY_SEPARATOR;
+use function is_string;
+use function realpath;
+use function file_exists;
+use function array_values;
+use function array_filter;
+use function strpos;
+use function count;
+use function preg_match;
+use function file_put_contents;
+use function is_numeric;
+use function chdir;
+use function max;
+use function ini_get;
+use const PHP_OS;
+use function version_compare;
+use const PHP_VERSION;
+use function is_null;
+use function setlocale;
+use const LC_CTYPE;
+use function microtime;
+use function str_repeat;
+use function json_encode;
+use function array_merge;
+use function array_sum;
 
 // show all errors
 error_reporting(-1);
@@ -282,17 +328,17 @@ if (isset($options['i'])) {
 
     if ($init_level === null) {
         echo "Calculating best config level based on project files\n";
-        Psalm\Config\Creator::createBareConfig($current_dir, $init_source_dir, $vendor_dir);
+        \Psalm\Config\Creator::createBareConfig($current_dir, $init_source_dir, $vendor_dir);
         $config = \Psalm\Config::getInstance();
     } else {
         try {
-            $template_contents = Psalm\Config\Creator::getContents(
+            $template_contents = \Psalm\Config\Creator::getContents(
                 $current_dir,
                 $init_source_dir,
                 $init_level,
                 $vendor_dir
             );
-        } catch (Psalm\Exception\ConfigCreationException $e) {
+        } catch (ConfigCreationException $e) {
             die($e->getMessage() . PHP_EOL);
         }
 
@@ -777,13 +823,13 @@ if (!isset($options['i'])) {
     echo "\n" . 'Detected level ' . $init_level . ' as a suitable initial default' . "\n";
 
     try {
-        $template_contents = Psalm\Config\Creator::getContents(
+        $template_contents = \Psalm\Config\Creator::getContents(
             $current_dir,
             $init_source_dir,
             $init_level,
             $vendor_dir
         );
-    } catch (Psalm\Exception\ConfigCreationException $e) {
+    } catch (ConfigCreationException $e) {
         die($e->getMessage() . PHP_EOL);
     }
 

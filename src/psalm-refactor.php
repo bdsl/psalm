@@ -1,11 +1,40 @@
 <?php
+namespace Psalm;
+
 require_once('command_functions.php');
 
-use Psalm\Internal\Analyzer\ProjectAnalyzer;
-use Psalm\Internal\IncludeCollector;
-use Psalm\IssueBuffer;
-use Psalm\Progress\DebugProgress;
-use Psalm\Progress\DefaultProgress;
+use \Psalm\Internal\Analyzer\ProjectAnalyzer;
+use \Psalm\Internal\IncludeCollector;
+use \Psalm\IssueBuffer;
+use \Psalm\Progress\DebugProgress;
+use \Psalm\Progress\DefaultProgress;
+use function error_reporting;
+use function ini_set;
+use function gc_collect_cycles;
+use function gc_disable;
+use function array_slice;
+use function getopt;
+use function implode;
+use function array_map;
+use function substr;
+use function preg_replace;
+use function in_array;
+use function fwrite;
+use const STDERR;
+use const PHP_EOL;
+use function array_key_exists;
+use function is_array;
+use function getcwd;
+use const DIRECTORY_SEPARATOR;
+use function is_string;
+use function realpath;
+use function preg_split;
+use function strpos;
+use function explode;
+use function end;
+use function chdir;
+use function max;
+use function microtime;
 
 // show all errors
 error_reporting(-1);
@@ -245,13 +274,13 @@ $threads = isset($options['threads'])
     ? (int)$options['threads']
     : max(1, ProjectAnalyzer::getCpuCount() - 2);
 
-$providers = new Psalm\Internal\Provider\Providers(
-    new Psalm\Internal\Provider\FileProvider(),
-    new Psalm\Internal\Provider\ParserCacheProvider($config, false),
-    new Psalm\Internal\Provider\FileStorageCacheProvider($config),
-    new Psalm\Internal\Provider\ClassLikeStorageCacheProvider($config),
+$providers = new \Psalm\Internal\Provider\Providers(
+    new \Psalm\Internal\Provider\FileProvider(),
+    new \Psalm\Internal\Provider\ParserCacheProvider($config, false),
+    new \Psalm\Internal\Provider\FileStorageCacheProvider($config),
+    new \Psalm\Internal\Provider\ClassLikeStorageCacheProvider($config),
     null,
-    new Psalm\Internal\Provider\ProjectCacheProvider($current_dir . DIRECTORY_SEPARATOR . 'composer.lock')
+    new \Psalm\Internal\Provider\ProjectCacheProvider($current_dir . DIRECTORY_SEPARATOR . 'composer.lock')
 );
 
 $debug = array_key_exists('debug', $options) || array_key_exists('debug-by-line', $options);

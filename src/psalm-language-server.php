@@ -1,9 +1,37 @@
 <?php
+
+namespace Psalm;
+
 require_once('command_functions.php');
 
-use Psalm\Config;
-use Psalm\Internal\Analyzer\ProjectAnalyzer;
-use Psalm\Internal\IncludeCollector;
+use \Psalm\Config;
+use \Psalm\Internal\Analyzer\ProjectAnalyzer;
+use \Psalm\Internal\IncludeCollector;
+use function gc_disable;
+use function error_reporting;
+use function array_slice;
+use function array_search;
+use function array_map;
+use function substr;
+use function preg_replace;
+use function in_array;
+use function fwrite;
+use const STDERR;
+use const PHP_EOL;
+use function error_log;
+use function getopt;
+use function implode;
+use function array_key_exists;
+use function ini_set;
+use function is_array;
+use function getcwd;
+use const DIRECTORY_SEPARATOR;
+use function is_string;
+use function realpath;
+use function setlocale;
+use const LC_CTYPE;
+use function chdir;
+use function strtolower;
 
 gc_disable();
 
@@ -239,13 +267,13 @@ if (isset($options['clear-cache'])) {
     exit;
 }
 
-$providers = new Psalm\Internal\Provider\Providers(
-    new Psalm\Internal\Provider\FileProvider,
-    new Psalm\Internal\Provider\ParserCacheProvider($config),
-    new Psalm\Internal\Provider\FileStorageCacheProvider($config),
-    new Psalm\Internal\Provider\ClassLikeStorageCacheProvider($config),
-    new Psalm\Internal\Provider\FileReferenceCacheProvider($config),
-    new Psalm\Internal\Provider\ProjectCacheProvider($current_dir . DIRECTORY_SEPARATOR . 'composer.lock')
+$providers = new \Psalm\Internal\Provider\Providers(
+    new \Psalm\Internal\Provider\FileProvider,
+    new \Psalm\Internal\Provider\ParserCacheProvider($config),
+    new \Psalm\Internal\Provider\FileStorageCacheProvider($config),
+    new \Psalm\Internal\Provider\ClassLikeStorageCacheProvider($config),
+    new \Psalm\Internal\Provider\FileReferenceCacheProvider($config),
+    new \Psalm\Internal\Provider\ProjectCacheProvider($current_dir . DIRECTORY_SEPARATOR . 'composer.lock')
 );
 
 $project_analyzer = new ProjectAnalyzer(
