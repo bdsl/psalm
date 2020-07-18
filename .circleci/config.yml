@@ -116,7 +116,6 @@ workflows:
             - install-and-self-analyse
       - phar-build:
           requires:
-            - test
             - "Code Style Analysis"
       - test-with-real-projects:
           requires:
